@@ -1,53 +1,159 @@
-// route to get logged in user's info (needs the token)
-export const getMe = (token) => {
-  return fetch('/api/users/me', {
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
-    },
-  });
+import { gql } from '@apollo/client';
+import { client } from './client';
+
+// Route to get logged in user's info
+export const getMe = async () => {
+  const GET_ME = gql`
+    query Me {
+      me {
+        _id
+        username
+        email
+        bookCount
+        savedBooks {
+          bookId
+          authors
+          description
+          title
+          image
+          link
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await client.query({
+      query: GET_ME,
+      context: {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('id_token')}`,
+        },
+      },
+    });
+    return response.data.me;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+// Route to create a new user
+export const createUser = async (userData) => {
+  const CREATE_USER = gql`
+    mutation CreateUser($username: String!, $email: String!, $password: String!) {
+      createUser(username: $username, email: $email, password: $password) {
+        token
+        user {
+          _id
+          username
+        }
+      }
+    }
+  `;
+    try {
+      const response = await client.mutate({
+        mutation: CREATE_USER,
+        variables: userData,
+      });
+
+      if (response && response.data && response.data.createUser) {
+        return response.data.createUser;
+      } else {
+        throw new Error('User creation failed!');
+      }
+    } catch (err) {
+      console.error('Error creating user: ', err);
+      throw err;
+    }
 };
 
-export const createUser = (userData) => {
-  return fetch('/api/users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
+// Route to login a user and return the token
+export const loginUser = async (userData) => {
+  const LOGIN_USER = gql`
+    mutation LoginUser($email: String!, $password: String!) {
+      login(email: $email, password: $password) {
+        token
+        user {
+          _id
+          username
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await client.mutate({
+      mutation: LOGIN_USER,
+      variables: userData,
+    });
+    return response.data.login;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 };
 
-export const loginUser = (userData) => {
-  return fetch('/api/users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
+// Route to save a book to a user's account
+export const saveBook = async (bookData) => {
+  const SAVE_BOOK = gql`
+    mutation SaveBook($bookData: BookInput!) {
+      saveBook(bookData: $bookData) {
+        _id
+        username
+        savedBooks {
+          bookId
+          authors
+          description
+          title
+          image
+          link
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await client.mutate({
+      mutation: SAVE_BOOK,
+      variables: { bookData },
+    });
+    return response.data.saveBook;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 };
 
-// save book data for a logged in user
-export const saveBook = (bookData, token) => {
-  return fetch('/api/users', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(bookData),
-  });
-};
+// Route to remove a book from a user's account
+export const deleteBook = async (bookId) => {
+  const DELETE_BOOK = gql`
+    mutation RemoveBook($bookId: ID!) {
+      removeBook(bookId: $bookId) {
+        _id
+        username
+        savedBooks {
+          bookId
+          authors
+          description
+          title
+          image
+          link
+        }
+      }
+    }
+  `;
 
-// remove saved book data for a logged in user
-export const deleteBook = (bookId, token) => {
-  return fetch(`/api/users/books/${bookId}`, {
-    method: 'DELETE',
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const response = await client.mutate({
+      mutation: DELETE_BOOK,
+      variables: { bookId },
+    });
+    return response.data.deleteBook;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 };
 
 // make a search to google books api
