@@ -12,7 +12,10 @@ export default defineConfig({
         target: 'http://localhost:3001',
         secure: false,
         changeOrigin: true
-      }
-    }
+      },
+    },
+  },
+  define: {
+    'process.env.REACT_APP_GRAPHQL_URI': JSON.stringify('http://localhost:3001/graphql'),
   }
 })

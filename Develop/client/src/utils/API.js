@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { client } from './client';
+import { client } from './apolloClient';
 
 // Route to get logged in user's info
 export const getMe = async () => {

@@ -1,6 +1,5 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import process from 'process';
 
 const httpLink = createHttpLink({
     uri: process.env.REACT_APP_GRAPHQL_URL || 'localhost:3001/graphql',
@@ -20,3 +19,5 @@ export const client = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
 });
+
+export default client;
