@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import { client } from './apolloClient';
 
 // Route to get logged in user's info
-export const getMe = async () => {
+export const getMe = async (token) => {
   const GET_ME = gql`
     query Me {
       me {
@@ -27,7 +27,7 @@ export const getMe = async () => {
       query: GET_ME,
       context: {
         headers: {
-          authorization: `Bearer ${localStorage.getItem('id_token')}`,
+          authorization: `Bearer ${token}`,
         },
       },
     });

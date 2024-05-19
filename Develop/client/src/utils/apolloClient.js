@@ -2,6 +2,7 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
+    // eslint-disable-next-line no-undef
     uri: process.env.REACT_APP_GRAPHQL_URL || 'localhost:3001/graphql',
 });
 
