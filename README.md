@@ -67,7 +67,7 @@ THEN I am logged out of the site and presented with a menu with the options Sear
 - Pulls from Google pages for book searches
 
 ## Mock-Up
-
+![mern-demonstration](https://github.com/ZeDevGit/MERN-Book-Search-Engine/assets/42353819/87fbf3f3-77be-4f3a-b13a-af94956e2bd6)
 
 ## Render-Link
 https://mern-book-search-engine-xpc1.onrender.com/
