@@ -1,6 +1,8 @@
 const { AuthenticationError } = require('apollo-server');
 const { User } = require('../models');
 
+
+// Resolves the query for the user that is currently logged in
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {

@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { client } from './client';
+import { client } from './apolloClient';
 
 export const addUser = async (userData) => {
     const ADD_USER = gql`
