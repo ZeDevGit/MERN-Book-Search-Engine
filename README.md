@@ -21,7 +21,7 @@ A book searching application
 - [Questions](#questions)
 
 ## Description 
-An application for searching for books using Google Pages
+An application for searching for books using Google Books
 
 ## User Story
 ```md
@@ -64,7 +64,7 @@ THEN I am logged out of the site and presented with a menu with the options Sear
 ## Features
 - User can search for their favorite books using the search bar
 - User can login/logout and save the books that they find
-- Pulls from Google pages for book searches
+- Pulls from Google Books for book searches
 
 ## Mock-Up
 ![mern-demonstration](https://github.com/ZeDevGit/MERN-Book-Search-Engine/assets/42353819/87fbf3f3-77be-4f3a-b13a-af94956e2bd6)
@@ -79,3 +79,4 @@ https://mern-book-search-engine-xpc1.onrender.com/
  ![Empty Badge](https://img.shields.io/badge/MIT-License-blue)
 ## Questions
  [ZeDevGit](https://github.com/ZeDevGit)
+
